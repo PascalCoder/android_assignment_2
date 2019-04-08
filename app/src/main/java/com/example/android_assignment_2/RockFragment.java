@@ -85,27 +85,4 @@ public class RockFragment extends Fragment {
         //makeRetrofitCall(interfaceApi);
     }
 
-    /*private void makeRetrofitCall(InterfaceApi api) {
-
-        //if(isRockFragmentDisplayed){
-            api.getRockArtists().enqueue(new Callback<ArtistList>() {
-                @Override
-                public void onResponse(Call<ArtistList> call, Response<ArtistList> response) {
-                    if(response.body() != null){
-                        //add the result to the view
-                        //(new MainActivity()).recyclerView.setAdapter(new CustomAdapter(response.body()));
-                        recyclerView.setAdapter(new CustomAdapter(response.body()));
-                    }else{
-                        Log.d("Message", "response.body() == null");
-                        recyclerView.setAdapter(new CustomAdapter(response.body()));
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ArtistList> call, Throwable t) {
-                    Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                }
-            });
-        //}
-    }*/
 }

@@ -8,8 +8,8 @@ public interface InterfaceApi {
     @GET("search?term=rock&amp;amp;media=music&amp;amp;entity=song&amp;amp;limit=50")
     Call<ArtistList> getRockArtists();
 
-    @GET("search?term=classick&amp;amp;media=music&amp;amp;entity=song&amp;amp;limit=50")
-    Call<ArtistList> getClassicArtists();
+    @GET("search?term=gospel&amp;amp;media=music&amp;amp;entity=song&amp;amp;limit=50")
+    Call<ArtistList> getClassicArtists(); //classick
 
     @GET("search?term=pop&amp;amp;media=music&amp;amp;entity=song&amp;amp;limit=50")
     Call<ArtistList> getPopArtists();

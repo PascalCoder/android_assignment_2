@@ -20,9 +20,10 @@ import java.io.IOException;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistViewHolder>{
 
     public static ArtistList artistPojoList;
-    public static String url;
+    public static String currentUrl;
+    public static String newUrl;
     public static CardView cardView;
-    public static int position;
+    public static MediaPlayer mediaPlayer;
 
     public CustomAdapter(ArtistList artistList){
         this.artistPojoList = artistList;
@@ -40,13 +41,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistView
         artistViewHolder.tvArtistName.setText(artistPojoList.artistList.get(i).getArtistName());
         artistViewHolder.tvCollectionName.setText(artistPojoList.artistList.get(i).getCollectionName());
         artistViewHolder.tvTrackPrice.setText(artistPojoList.artistList.get(i).getTrackPrice() + " USD");
+        artistViewHolder.tvUrl.setText(artistPojoList.artistList.get(i).getPreviewUrl());
 
         Picasso.get().load(artistPojoList.artistList.get(i).getArtWorkUrl60())
                 .resize(200, 200)
                 .into(artistViewHolder.imageView);
 
-        url = artistPojoList.artistList.get(i).getPreviewUrl();
-        position = i;
+        if(currentUrl == null || currentUrl.equals("") || currentUrl.length()==0) {
+            currentUrl = artistPojoList.artistList.get(i).getPreviewUrl(); //playing url
+        }else{
+            Log.d("CurrentUrl", currentUrl);
+            newUrl = artistPojoList.artistList.get(i).getPreviewUrl();
+            Log.d("NewUrl", newUrl);
+        }
     }
 
     @Override
@@ -60,8 +67,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistView
         TextView tvArtistName;
         TextView tvCollectionName;
         TextView tvTrackPrice;
+        TextView tvUrl;
 
-        CardView cardView;
+        //CardView cardView;
 
         public ArtistViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,45 +78,78 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistView
             tvArtistName = itemView.findViewById(R.id.tv_artist_name);
             tvCollectionName = itemView.findViewById(R.id.tv_collection);
             tvTrackPrice = itemView.findViewById(R.id.tv_price);
+            tvUrl = itemView.findViewById(R.id.tv_url);
 
-            Log.d("isClassicDisplayed", "" + MainActivity.isClassicFragmentDisplayed);
             cardView = itemView.findViewById(R.id.cv_item);
-            final String url = CustomAdapter.url;
 
             if(MainActivity.isClassicFragmentDisplayed) {
                 cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(v.getContext(), url, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), tvArtistName.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                        playMusic(url);
+                        if(isMusicPlaying(currentUrl)){
+                            stopMusic(mediaPlayer);
+                            playMusic(tvUrl.getText().toString());
+                        }else if(isMusicPlaying(tvUrl.getText().toString())){
+                            stopMusic(mediaPlayer);
+                        }
+                        else{
+                            if(mediaPlayer != null)
+                                stopMusic(mediaPlayer);
+                            playMusic(tvUrl.getText().toString());
+                        }
+
                     }
                 });
 
             }
         }
 
-        public void playMusic(String aUrl){
-
+        public void playMusic(String url){
             final MediaPlayer mediaPlayer = new MediaPlayer();
+            CustomAdapter.mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            CustomAdapter.mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
             try{
-                mediaPlayer.setDataSource(aUrl);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
+                CustomAdapter.mediaPlayer.setDataSource(url);
+                CustomAdapter.mediaPlayer.prepare();
+                CustomAdapter.mediaPlayer.start();
             }catch(IOException e){
                 e.printStackTrace();
             }
 
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            CustomAdapter.mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    mediaPlayer.release();
-                    //mediaPlayer = null;
+                    CustomAdapter.mediaPlayer.release();
+                    CustomAdapter.mediaPlayer = null;
                 }
             });
 
+        }
+
+        public void stopMusic(MediaPlayer mediaPlayer){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        public boolean isMusicPlaying(String url){
+            MediaPlayer mediaPlayer = new MediaPlayer();
+
+            try{
+                mediaPlayer.setDataSource(url);
+                mediaPlayer.prepare();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            if(mediaPlayer.isPlaying()){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 }

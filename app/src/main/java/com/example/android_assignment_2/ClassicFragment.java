@@ -1,20 +1,14 @@
 package com.example.android_assignment_2;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,8 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link //ClassicFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ClassicFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -34,9 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ClassicFragment extends Fragment {
 
     RecyclerView recyclerView;
-    List<ArtistPojo> list;
     InterfaceApi interfaceApi;
-    CardView cardView;
 
     public ClassicFragment() {
         // Required empty public constructor

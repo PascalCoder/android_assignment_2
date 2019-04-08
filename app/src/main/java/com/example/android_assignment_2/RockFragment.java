@@ -1,7 +1,9 @@
 package com.example.android_assignment_2;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ public class RockFragment extends Fragment {
 
     RecyclerView recyclerView;
     InterfaceApi interfaceApi;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public RockFragment() {
         // Required empty public constructor
@@ -53,6 +56,21 @@ public class RockFragment extends Fragment {
 
         getArtists();
         //initializeRetrofit();
+
+        swipeRefreshLayout = rootView.findViewById(R.id.sw_refresh);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getArtists();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        });
 
         return rootView;
     }

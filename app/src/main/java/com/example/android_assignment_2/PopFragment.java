@@ -1,7 +1,5 @@
 package com.example.android_assignment_2;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class PopFragment extends Fragment {
     RecyclerView recyclerView;
-    List<ArtistPojo> list;
     InterfaceApi interfaceApi;
 
     public PopFragment() {

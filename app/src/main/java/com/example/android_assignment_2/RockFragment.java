@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RockFragment extends Fragment {
 
     RecyclerView recyclerView;
-    List<ArtistPojo> list;
     InterfaceApi interfaceApi;
 
     public RockFragment() {
@@ -63,9 +61,7 @@ public class RockFragment extends Fragment {
         interfaceApi.getRockArtists().enqueue(new Callback<ArtistList>() {
             @Override
             public void onResponse(Call<ArtistList> call, Response<ArtistList> response) {
-                Log.d("Message", "Inside onResponse before setting adapter");
                 recyclerView.setAdapter(new CustomAdapter(response.body()));
-                Log.d("Message", "Inside onResponse after setting adapter");
             }
 
             @Override

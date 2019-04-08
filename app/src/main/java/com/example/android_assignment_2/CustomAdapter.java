@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistView
         if(currentUrl == null || currentUrl.equals("") || currentUrl.length()==0) {
             currentUrl = artistPojoList.artistList.get(i).getPreviewUrl(); //playing url
         }else{
-            Log.d("CurrentUrl", currentUrl);
             newUrl = artistPojoList.artistList.get(i).getPreviewUrl();
-            Log.d("NewUrl", newUrl);
         }
     }
 
@@ -69,8 +66,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistView
         TextView tvTrackPrice;
         TextView tvUrl;
 
-        //CardView cardView;
-
         public ArtistViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -86,7 +81,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistView
                 cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(v.getContext(), tvArtistName.getText().toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(v.getContext(), tvArtistName.getText().toString(), Toast.LENGTH_SHORT).show();
 
                         if(isMusicPlaying(currentUrl)){
                             stopMusic(mediaPlayer);
@@ -145,11 +140,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ArtistView
             }catch (IOException e){
                 e.printStackTrace();
             }
-            if(mediaPlayer.isPlaying()){
-                return true;
-            }else{
-                return false;
-            }
+
+            return mediaPlayer.isPlaying();
         }
     }
 }
